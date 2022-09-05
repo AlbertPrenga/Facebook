@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Facebook.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20220904152146_face")]
-    partial class face
+    [Migration("20220905132127_facebook")]
+    partial class facebook
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

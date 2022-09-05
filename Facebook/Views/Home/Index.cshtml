@@ -11,33 +11,44 @@
 <h5>Here is your profile description:</h5>
 <p>@ViewBag.iLoguari.Description</p>
 
-<div class="col-sm-4">
+
 <h5>Your profesional network:</h5>
 <table class="table">
     <thead>
         <th>Name</th>
     </thead>
        <tbody>
-                <tr>
+        
+                
+                  
                 @foreach (var miqte in ViewBag.miqte){
                 
                         @if (@miqte.SenderId == ViewBag.iLoguari.UserId)
                         {
-                            <td>@miqte.Reciver.Name </td>
+                           <tr>
+                            <td><p> <a href="/users/@miqte.ReciverId"> @miqte.Reciver.Name</a> |
+                               <a href="/DeclineR/@miqte.RequestId" >  Delete  </a> </p>
+                               </td>
+                            </tr>
                         }
                         else
                         {
-                            <td>@miqte.Sender.Name </td>
+                             <tr>
+                            <td> 
+                                <p>
+                 <a href="/users/@miqte.SenderId">@miqte.Sender.Name</a> 
+                    |  <a href="/DeclineR/@miqte.RequestId" >Delete</a></p>
+                            </td>
+                            </tr>  
+                         
                         }
-                      //  <a href="/DeclineR/@miqte.RequestId" class="btn btn-danger"> Delete </a>
                      }
-                    </tr>
         </tbody>
   </table>
- </div>
+
 
 <br>
-<div class="col-sm-4">
+
 <h5>Invitations:</h5>
 <p>The following people asked you to be their network:</p>
  <table class="table">
@@ -56,15 +67,14 @@
             
                         <td>@request.Sender.Name </td>
                         <td>
-                            <a href="/AcceptR/@request.RequestId" class=" btn btn-primary">Accept Invite </a>
-                            <a href="/DeclineR/@request.RequestId" class="btn btn-danger"> Ignore </a>
+                            <a href="/AcceptR/@request.RequestId" >Accept Invite </a>  <a href="/DeclineR/@request.RequestId" > Ignore </a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
 </div>
-</div>
+
 
 
 <div class="col-sm-3">

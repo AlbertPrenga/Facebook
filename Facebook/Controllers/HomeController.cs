@@ -89,7 +89,7 @@ public class HomeController : Controller
         {
             var test22= LIST4[i].Requests.Except(rq);
             
-            for (int j = 0; j < rq.Count-1; j++)
+            for (int j = 0; j < rq.Count; j++)
             {
                 if ((rq.Count > 0) && (rq[j].SenderId == LIST4[i].UserId || rq[j].ReciverId == LIST4[i].UserId ))
             {
@@ -98,7 +98,7 @@ public class HomeController : Controller
             }
             }
             if  (miqte.Count > 0)
-            for (int z = 0; z < miqte.Count-1; z++)
+            for (int z = 0; z < miqte.Count; z++)
             {
                
                 if ( (miqte[z].SenderId == LIST4[i].UserId || miqte[z].ReciverId == LIST4[i].UserId) )
@@ -122,36 +122,7 @@ public class HomeController : Controller
         {
                     return RedirectToAction("Register");
         }
-        // int id = (int)HttpContext.Session.GetInt32("userId");
-        // List<Request> rq =  _context.Requests.Include(e=>e.Reciver).Include(e=>e.Sender).Where(e => e.ReciverId == id).Where(e => e.Accepted == false).ToList();
-        // List<Request> miqte =_context.Requests.Where(e => (e.SenderId == id) || (e.ReciverId == id)).Include(e=>e.Reciver).Include(e=>e.Sender).Where(e=>e.Accepted ==true).ToList();
-        // List<User> LIST4= _context.Users.Include(e=>e.Requests).Where(e=> e.UserId != id).Where(e=>(e.Requests.Any(f=> f.SenderId == id) == false) && (e.Requests.Any(f=> f.ReciverId == id) == false) ).ToList();
 
-        //         for (int i = 0; i < LIST4.Count-1; i++)
-        // {
-        //     var test22= LIST4[i].Requests.Except(rq);
-            
-        //     for (int j = 0; j < rq.Count-1; j++)
-        //     {
-        //         if ((rq.Count > 0) && (rq[j].SenderId == LIST4[i].UserId || rq[j].ReciverId == LIST4[i].UserId ))
-        //     {
-        //         if(LIST4.Count > 0)
-        //         LIST4.Remove(LIST4[i]);
-        //     }
-        //     }
-        //     if  (miqte.Count > 0)
-        //     for (int z = 0; z < miqte.Count-1; z++)
-        //     {
-               
-        //         if ( (miqte[z].SenderId == LIST4[i].UserId || miqte[z].ReciverId == LIST4[i].UserId) )
-        //     {   
-        //         if(LIST4.Count > 0)
-        //         LIST4.Remove(LIST4[i]);
-        //     }
-        //     }
-            
-        // }
-        // ViewBag.perdoruesit= LIST4;
         ViewBag.marrNgaDb = _context.Users.ToList();
         User marrNgaDb= _context.Users.FirstOrDefault(e => e.UserId == id);
         return View("UserId", marrNgaDb);

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Facebook.Migrations
 {
-    public partial class face : Migration
+    public partial class facebook : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
