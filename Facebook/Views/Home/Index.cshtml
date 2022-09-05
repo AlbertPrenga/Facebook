@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Hi @ViewBag.iLoguari.Name</h1>
+</div>
+
+<div class="row">
+<div class="col-sm-6">
+<h5>Here is your profile description:</h5>
+<p>@ViewBag.iLoguari.Description</p>
+
+<div class="col-sm-4">
+<h5>Your profesional network:</h5>
+<table class="table">
+    <thead>
+        <th>Name</th>
+    </thead>
+       <tbody>
+                <tr>
+                @foreach (var miqte in ViewBag.miqte){
+                
+                        @if (@miqte.SenderId == ViewBag.iLoguari.UserId)
+                        {
+                            <td>@miqte.Reciver.Name </td>
+                        }
+                        else
+                        {
+                            <td>@miqte.Sender.Name </td>
+                        }
+                      //  <a href="/DeclineR/@miqte.RequestId" class="btn btn-danger"> Delete </a>
+                     }
+                    </tr>
+        </tbody>
+  </table>
+ </div>
+
+<br>
+<div class="col-sm-4">
+<h5>Invitations:</h5>
+<p>The following people asked you to be their network:</p>
+ <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var request in ViewBag.requests)
+                {
+                    <tr>
+            
+                        <td>@request.Sender.Name </td>
+                        <td>
+                            <a href="/AcceptR/@request.RequestId" class=" btn btn-primary">Accept Invite </a>
+                            <a href="/DeclineR/@request.RequestId" class="btn btn-danger"> Ignore </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+</div>
+</div>
+
+
+<div class="col-sm-3">
+<a href="/AllUsers">All Users</a> <a href="/Logout">Logout</a>
+</div>
+</div>
