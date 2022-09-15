@@ -12,7 +12,6 @@ public bool Accepted {get;set;} = false;
 public int SenderId {get;set;}
 public User? Sender {get;set;}
 public int ReciverId{get;set;}
-
 public User? Reciver {get;set;}
 public DateTime CreatedAt { get; set; } = DateTime.Now;
 public DateTime UpdatedAt { get; set; } = DateTime.Now;

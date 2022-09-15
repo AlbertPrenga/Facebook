@@ -20,12 +20,17 @@ public class User
     [Required]
     [MinLength(8, ErrorMessage = "Password must be 8 characters or longer!")]
     public string Password { get; set; }
+
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
+    public List<Post> Posts {get; set;}= new List<Post>();
+    
+    public List<Fan>? PosteQePelqej {get; set;}
 
-    public List<Request> Requests {get;set;} = new List<Request>();
-
-
+    // [InverseProperty("Fans")]
+    // public List<Fan>? Fans {get; set;}
+     
+    public List<Request>? Requests {get;set;}
 
 
     // public List<Like> Liked { get; set; } = new List<Like>(); 

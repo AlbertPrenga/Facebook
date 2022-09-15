@@ -19,6 +19,57 @@ namespace Facebook.Migrations
                 .HasAnnotation("ProductVersion", "6.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("Facebook.Models.Fan", b =>
+                {
+                    b.Property<int>("FanId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("FanId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Fans");
+                });
+
+            modelBuilder.Entity("Facebook.Models.Post", b =>
+                {
+                    b.Property<int>("PostId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Posts");
+                });
+
             modelBuilder.Entity("Facebook.Models.Request", b =>
                 {
                     b.Property<int>("RequestId")
@@ -82,6 +133,28 @@ namespace Facebook.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Facebook.Models.Fan", b =>
+                {
+                    b.HasOne("Facebook.Models.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("Facebook.Models.Post", b =>
+                {
+                    b.HasOne("Facebook.Models.User", "Creator")
+                        .WithMany("PosteTeKrijuara")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+                });
+
             modelBuilder.Entity("Facebook.Models.Request", b =>
                 {
                     b.HasOne("Facebook.Models.User", "Reciver")
@@ -103,6 +176,8 @@ namespace Facebook.Migrations
 
             modelBuilder.Entity("Facebook.Models.User", b =>
                 {
+                    b.Navigation("PosteTeKrijuara");
+
                     b.Navigation("Requests");
                 });
 #pragma warning restore 612, 618

@@ -62,12 +62,14 @@ public class HomeController : Controller
             }
             
         }
+        //shfaqim postet ne mur
+        ViewBag.posts = _context.Posts.Include(e => e.Fans).Include(e => e.Creator).OrderByDescending(e => e.CreatedAt).ToList();
         //shfaqim gjith requests
         ViewBag.requests = _context.Requests.Include(e=>e.Reciver).Include(e=>e.Sender).Where(e => e.ReciverId == id).Where(e => e.Accepted == false).ToList();
         // lista e filtruar ruhet ne viewbag
         ViewBag.perdoruesit= LIST4;
 
-                //Marr te loguarin me te dhena
+        //Marr te loguarin me te dhena
         ViewBag.iLoguari = _context.Users.FirstOrDefault(e => e.UserId == id);
         // shfaq gjith miqte
         ViewBag.miqte = _context.Requests.Where(e => (e.SenderId == id) || (e.ReciverId == id)).Include(e=>e.Reciver).Include(e=>e.Sender).Where(e=>e.Accepted ==true).ToList();
@@ -161,10 +163,64 @@ public class HomeController : Controller
     {
         
         Request requestii = _context.Requests.First(e => e.RequestId == id);
-         _context.Remove(requestii);
+        _context.Remove(requestii);
         _context.SaveChanges();
         return RedirectToAction("index");
     }
+    [HttpGet("Post/Add")]
+    public IActionResult PostAdd()
+    {
+
+        return View();
+    }
+     [HttpPost("/Post/Add")]
+    public IActionResult PostCreate(Post marrNgaView)
+    {
+        if (ModelState.IsValid)
+        {
+            int id = (int)HttpContext.Session.GetInt32("userId");
+
+            if (_context.Posts.Any(u => u.Comment == marrNgaView.Comment))
+            {
+                // Manually add a ModelState error to the Email field, with provided
+                // error message
+                ModelState.AddModelError("Comment", "This Post is already created!");
+
+                return View("MovieAdd");
+                // You may consider returning to the View at this point
+            }
+            marrNgaView.UserId = id;
+            _context.Posts.Add(marrNgaView);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        return View("PostAdd");
+    }
+    [HttpGet("Post/BehuFans/{id}")]
+    public IActionResult BehuFans(int id)
+    {
+        int idFromSession = (int)HttpContext.Session.GetInt32("userId");
+        Fan fansIRI = new Fan()
+        {
+            UserId = idFromSession,
+            PostId = id,
+            
+        };
+        _context.Fans.Add(fansIRI);
+        _context.SaveChanges();
+        return RedirectToAction("index");
+
+    }
+    [HttpGet("Post/HiqeFans/{id}")]
+    public IActionResult FansRemove(int id)
+    {
+        int idFromSession = (int)HttpContext.Session.GetInt32("userId");
+        Fan hiqFans = _context.Fans.First(e => e.PostId == id && e.UserId == idFromSession);
+        _context.Remove(hiqFans);
+        _context.SaveChanges();
+        return RedirectToAction("index");
+    }
+
 
     public IActionResult Privacy()
     {
@@ -195,7 +251,7 @@ public class HomeController : Controller
             {
                 // Manually add a ModelState error to the Email field, with provided
                 // error message
-                ModelState.AddModelError("UserName", "UserName already in use!");
+                ModelState.AddModelError("Email", "Email already in use!");
 
                 return View();
                 // You may consider returning to the View at this point
@@ -208,7 +264,7 @@ public class HomeController : Controller
            
             return RedirectToAction("Index");
         }
-        return View();
+        return View("Error");
     }
 
     [HttpPost("Login")]

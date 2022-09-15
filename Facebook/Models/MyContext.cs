@@ -13,12 +13,17 @@ public class MyContext : DbContext
     public DbSet<User> Users { get; set; } 
 
     public DbSet<Request> Requests {get;set;}
+    public DbSet<Post> Posts {get;set;}
+    public DbSet<Fan> Fans {get; set;}
      protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Request>()
-            .HasOne(p => p.Reciver)
-            
+            .HasOne(p => p.Reciver)  
             .WithMany(b => b.Requests)
-            ;
+      ;
+
+        modelBuilder.Entity<Fan>()
+        .HasOne(p => p.PostiQePelqehet)
+        .WithMany(p => p.Fans);
     }
 }

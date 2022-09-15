@@ -75,9 +75,46 @@
         </table>
 </div>
 
+ 
+
 
 
 <div class="col-sm-3">
-<a href="/AllUsers">All Users</a> <a href="/Logout">Logout</a>
+<a href="/AllUsers">All Users</a> <a href="/Post/Add">Create Post</a> <a href="/Logout">Logout</a>
 </div>
 </div>
+<div class="row">
+   <h3>The wall of posts</h3>
+
+    @foreach (var post in @ViewBag.posts)
+    {
+       <div class="col-sm-6">
+        <h5 class="text-success">@post.Comment </h5> 
+        </div>
+        <div class="col-sm-4">
+        <p class="text-primary">by @post.Creator.Name</p>
+      </div>
+        var id = 0;
+         @foreach (var fan in post.Fans)
+        {
+            if(fan.UserId == @ViewBag.iLoguari.UserId)
+            {
+               id = fan.PostId;
+               break;
+            }
+            
+        }
+        if (id == 0)
+        {
+            <a href="Post/BehuFans/@post.PostId">Like</a>
+        }
+        else
+        {
+            <a href="/Post/HiqeFans/@post.PostId">UnLike </a>
+        }
+        
+       <p> @post.Fans.Count likes</p>
+     
+       
+    }
+ </div>   
